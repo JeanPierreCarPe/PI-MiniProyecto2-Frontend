@@ -1,21 +1,43 @@
 @import "tailwindcss";
 
 @theme {
-    --color-darkblue: #21242c;
-    --color-blue: #2862b1;
-    --color-white: #fbfbfb;
-    --color-green: #179c5b;
-    --color-red: #ef5a5d;
-    --color-lightblue: #579cf9;
-    --color-gray: #575f75;
+  --color-darkblue: #21242c;
+  --color-blue: #2862b1;
+  --color-blue-medium: #23549a;
+  --color-white: #fbfbfb;
+  --color-green: #1dc875;
+  --color-red: #f69396;
+  --color-red-medium: #bc2528;
+  --color-red-dark: #a01f22;
+  --color-lightblue: #579cf9;
+  --color-gray: #575f75;
+  --color-yellow: #f2aa10;
 }
 
-:root {
-    --color-darkblue: #21242c;
-    --color-blue: #2862b1;
-    --color-white: #fbfbfb;
-    --color-green: #179c5b;
-    --color-red: #ef5a5d;
-    --color-lightblue: #579cf9;
-    --color-gray: #575f75;
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #579cf9;
+}
+
+/* Prevent text selection during drag */
+.scroll-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

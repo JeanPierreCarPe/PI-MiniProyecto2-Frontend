@@ -1,9 +1,50 @@
+/**
+ * Password recovery page
+ * Allows requesting an email to reset forgotten password
+ * 
+ * @module ForgotPassword
+ */
+
 import { Link } from "react-router";
 import Input from "../components/Input";
 import { useState, useRef, type FormEvent } from "react";
 import useUserStore from "../stores/useUserStore";
 
+/**
+ * Password recovery page component
+ * Sends an email with a link to reset the password
+ * 
+ * @component
+ * @returns {JSX.Element} Password recovery page
+ * 
+ * @description
+ * Features:
+ * - Simple form with email only
+ * - Rotating background video
+ * - Success message after sending email
+ * - Visual error handling
+ * - Loading state during submission
+ * - Link to return to login
+ * - Responsive design
+ * 
+ * Flow:
+ * 1. User enters email
+ * 2. System sends email with token
+ * 3. User receives link to reset password
+ * 4. Redirect to ResetPassword with token
+ * 
+ * @example
+ * ```tsx
+ * <PublicRoute>
+ *   <ForgotPassword />
+ * </PublicRoute>
+ * ```
+ */
 const ForgotPassword: React.FC = () => {
+  /**
+   * Array of video paths for the background
+   * @constant {string[]}
+   */
   const videos = [
     "/videos/auth-video1.mp4",
     "/videos/auth-video2.mp4",
@@ -20,11 +61,22 @@ const ForgotPassword: React.FC = () => {
   // Zustand store
   const { forgotPassword, isLoading, error, clearError } = useUserStore();
 
+  /**
+   * Handles the video end event
+   * Changes to the next video in the array in a circular manner
+   */
   const handleVideoEnd = () => {
     const nextIndex = (currentVideoIndex + 1) % videos.length;
     setCurrentVideoIndex(nextIndex);
   };
 
+  /**
+   * Handles the recovery form submission
+   * Sends email with password reset link
+   * 
+   * @async
+   * @param {FormEvent} e - Form event
+   */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     clearError();
@@ -77,14 +129,14 @@ const ForgotPassword: React.FC = () => {
             />
             <button
               type="submit"
-              className="bg-green text-white py-3 rounded h-12 font-semibold mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-medium text-white py-3 rounded h-12 font-semibold mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               {isLoading ? "Enviando..." : "Enviar Enlace"}
             </button>
           </form>
         </div>
-        <Link to="/login" className="text-lightblue font-semibold">
+        <Link to="/login" className="text-green font-semibold">
           Volver al inicio de sesión
         </Link>
       </div>

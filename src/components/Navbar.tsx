@@ -1,10 +1,34 @@
 import { Link, useNavigate, useLocation } from "react-router";
 
+/**
+ * Responsive navigation bar component
+ * Mobile: top bar with logo and back button + bottom bar with navigation
+ * Desktop/Tablet: single top bar with centered logo and navigation on the right
+ *
+ * @component
+ * @returns {JSX.Element} Adaptive navigation bar
+ *
+ * @example
+ * ```tsx
+ * <Navbar />
+ * ```
+ *
+ * @description
+ * Features:
+ * - Responsive navigation (mobile and desktop)
+ * - "Back" button that appears on all pages except Home
+ * - Links to: Home, Search, Liked, Profile
+ * - Centered logo
+ * - Fixed positioning (top on desktop, top + bottom on mobile)
+ */
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/home";
 
+  /**
+   * Navigates to the previous page in browser history
+   */
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -26,17 +50,23 @@ const Navbar: React.FC = () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-big-left"
+              className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z" />
+              <path d="M5 12l14 0" />
+              <path d="M5 12l4 4" />
+              <path d="M5 12l4 -4" />
             </svg>
             <p>Volver</p>
           </button>
         ) : (
           <div className="w-20"></div>
         )}
-        <img src="./images/logo.png" alt="logo.png" className="w-16 h-16 object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <img
+          src="./images/logo.png"
+          alt="logo.png"
+          className="w-16 h-16 object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
         <div className="w-16"></div>
       </nav>
       <nav className="md:hidden w-full fixed bottom-0 left-0 h-20 bg-darkblue border-t z-[1000]">
@@ -102,7 +132,7 @@ const Navbar: React.FC = () => {
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
             </svg>
-            <p className="text-xs mt-1">Liked</p>
+            <p className="text-xs mt-1">Me Gusta</p>
           </Link>
           <Link
             to="/profile"
@@ -144,17 +174,23 @@ const Navbar: React.FC = () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-big-left"
+              className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z" />
+              <path d="M5 12l14 0" />
+              <path d="M5 12l4 4" />
+              <path d="M5 12l4 -4" />
             </svg>
             <p>Volver</p>
           </button>
         ) : (
           <div className="w-24"></div>
         )}
-        <img src="./images/logo.png" alt="logo.png" className="w-16 h-16 object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <img
+          src="./images/logo.png"
+          alt="logo.png"
+          className="w-16 h-16 object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
         <div className="nav-options flex">
           <Link
             to="/home"

@@ -1,9 +1,45 @@
+/**
+ * Login page
+ * Allows users to authenticate in the application
+ * 
+ * @module LoginPage
+ */
+
 import { Link, useNavigate } from "react-router";
 import Input from "../components/Input";
 import { useState, useRef, type FormEvent } from "react";
 import useUserStore from "../stores/useUserStore";
 
+/**
+ * Login page component
+ * Includes authentication form with email and password
+ * Displays rotating background video
+ * 
+ * @component
+ * @returns {JSX.Element} Login page
+ * 
+ * @description
+ * Features:
+ * - Form with email and password validation
+ * - Rotating background video (4 videos)
+ * - Error handling with visual messages
+ * - Loading state during authentication
+ * - Links to registration and password recovery
+ * - Responsive design (mobile and desktop)
+ * 
+ * @example
+ * ```tsx
+ * // Usage in App.tsx
+ * <PublicRoute>
+ *   <LoginPage />
+ * </PublicRoute>
+ * ```
+ */
 const LoginPage: React.FC = () => {
+  /**
+   * Array of video paths for the background
+   * @constant {string[]}
+   */
   const videos = [
     "/videos/auth-video1.mp4",
     "/videos/auth-video2.mp4",
@@ -13,7 +49,7 @@ const LoginPage: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Estados del formulario
+  // Form states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
@@ -21,21 +57,32 @@ const LoginPage: React.FC = () => {
   const { login, isLoading, error, clearError } = useUserStore();
   const navigate = useNavigate();
 
+  /**
+   * Handles the video end event
+   * Changes to the next video in the array in a circular manner
+   */
   const handleVideoEnd = () => {
     const nextIndex = (currentVideoIndex + 1) % videos.length;
     setCurrentVideoIndex(nextIndex);
   };
 
+  /**
+   * Handles the login form submission
+   * Attempts to authenticate the user and redirects to /home if successful
+   * 
+   * @async
+   * @param {FormEvent} e - Form event
+   */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     clearError();
 
     try {
       await login({ email, password });
-      // Si el login es exitoso, redirige al home
+      // If login is successful, redirect to home
       navigate("/home");
     } catch (error) {
-      // El error ya está manejado en el store
+      // Error is already handled in the store
       console.error("Error en login:", error);
     }
   };
@@ -77,14 +124,14 @@ const LoginPage: React.FC = () => {
               />
               <Link
                 to="/forgot-password"
-                className="text-sm text-lightblue self-end font-semibold"
+                className="text-sm text-green self-end font-semibold"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
             <button
               type="submit"
-              className="bg-green text-white py-3 rounded h-12 font-semibold mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-medium text-white py-3 rounded h-12 font-semibold mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
@@ -93,7 +140,7 @@ const LoginPage: React.FC = () => {
         </div>
         <p>
           ¿No tienes una cuenta?{" "}
-          <Link to="/register" className="text-lightblue font-semibold">
+          <Link to="/register" className="text-green font-semibold">
             Crear una cuenta
           </Link>
         </p>
