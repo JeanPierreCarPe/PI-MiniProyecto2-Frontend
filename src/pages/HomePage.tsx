@@ -78,20 +78,53 @@ const HomePage: React.FC = () => {
       {/* Footer */}
       <footer className="py-6">
         <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center gap-8">
+          <div className="flex justify-center items-center gap-8 flex-wrap">
             <Link
               to="/about"
-              className="text-white hover:text-lightblue transition-colors text-lg"
+              className="text-white hover:text-lightblue transition-colors text-lg focus:outline-none focus:ring-2 focus:ring-lightblue rounded px-2 py-1"
+              aria-label="Ir a página Sobre Nosotros"
             >
               Sobre Nosotros
             </Link>
             <span className="text-white/30">|</span>
             <Link
               to="/sitemap"
-              className="text-white hover:text-lightblue transition-colors text-lg"
+              className="text-white hover:text-lightblue transition-colors text-lg focus:outline-none focus:ring-2 focus:ring-lightblue rounded px-2 py-1"
+              aria-label="Ir a Mapa del Sitio"
             >
               Mapa del Sitio
             </Link>
+            <span className="text-white/30">|</span>
+            <Link
+              to="/user-manual"
+              className="text-white hover:text-green transition-colors text-lg focus:outline-none focus:ring-2 focus:ring-green rounded px-2 py-1 flex items-center gap-2"
+              aria-label="Ir a Manual de Usuario"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                <path d="M3 6l0 13" />
+                <path d="M12 6l0 13" />
+                <path d="M21 6l0 13" />
+              </svg>
+              Manual de Usuario
+            </Link>
+          </div>
+          <div className="text-center mt-4">
+            <p className="text-white/50 text-sm">
+              🤖 Manual generado con asistencia de IA
+            </p>
           </div>
         </div>
       </footer>

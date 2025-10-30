@@ -259,25 +259,28 @@ const ProfilePage: React.FC = () => {
           </div>
           <button
             onClick={() => setShowEditModal(true)}
-            className="edit-profile-button bg-blue text-white py-3 rounded h-12 font-semibold hover:bg-blue-medium transition"
+            className="edit-profile-button bg-blue text-white py-3 rounded h-12 font-semibold hover:bg-blue-medium transition focus:outline-none focus:ring-2 focus:ring-lightblue cursor-pointer"
+            aria-label="Editar perfil de usuario"
           >
             Editar perfil
           </button>
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="logout-button bg-red-dark text-white py-3 rounded h-12 font-semibold hover:bg-red-medium transition"
+            className="logout-button bg-red-dark text-white py-3 rounded h-12 font-semibold hover:bg-red-medium transition focus:outline-none focus:ring-2 focus:ring-red cursor-pointer"
+            aria-label="Cerrar sesión"
           >
             Cerrar sesion
           </button>
         </div>
-        <p className="text-white cursor-pointer">
+        <p className="text-white">
           ¿Deseas eliminar tu cuenta?
-          <span
-            className="text-green font-semibold ml-1"
+          <button
             onClick={() => setShowDeleteModal(true)}
+            className="text-green font-semibold ml-1 bg-transparent border-none p-0 cursor-pointer hover:underline focus:outline-none focus:ring-2 focus:ring-green rounded"
+            aria-label="Abrir modal para eliminar cuenta"
           >
             Hazlo Aqui
-          </span>
+          </button>
         </p>
       </div>
       <div className="w-full md:w-2/3 min-h-screen flex flex-col justify-center items-center px-4">
@@ -288,7 +291,8 @@ const ProfilePage: React.FC = () => {
             {user?.moviesLiked && user.moviesLiked.length > 4 && (
               <button
                 onClick={() => navigate('/liked')}
-                className="text-lightblue hover:text-blue transition font-semibold"
+                className="text-lightblue hover:text-blue transition font-semibold focus:outline-none focus:ring-2 focus:ring-lightblue rounded px-2 py-1 cursor-pointer"
+                aria-label={`Ver todos los ${user.moviesLiked.length} videos favoritos`}
               >
                 Ver todos ({user.moviesLiked.length})
               </button>
@@ -319,7 +323,8 @@ const ProfilePage: React.FC = () => {
               </p>
               <button
                 onClick={() => navigate('/')}
-                className="mt-4 px-6 py-2 bg-blue text-white rounded hover:bg-lightblue transition"
+                className="mt-4 px-6 py-2 bg-blue text-white rounded hover:bg-lightblue transition focus:outline-none focus:ring-2 focus:ring-lightblue cursor-pointer"
+                aria-label="Ir a explorar videos"
               >
                 Explorar videos
               </button>
@@ -372,7 +377,8 @@ const ProfilePage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowPasswordModal(true)}
-              className="text-green font-semibold"
+              className="text-green font-semibold bg-transparent border-none p-0 cursor-pointer hover:underline focus:outline-none focus:ring-2 focus:ring-green rounded"
+              aria-label="Abrir modal para cambiar contraseña"
             >
               ¿Deseas cambiar tu contraseña?
             </button>
@@ -384,7 +390,8 @@ const ProfilePage: React.FC = () => {
           <button
             onClick={handleUpdateProfile}
             disabled={isLoading}
-            className="flex-1 bg-blue text-white py-3 rounded font-semibold hover:bg-blue-medium transition disabled:opacity-50"
+            className="flex-1 bg-blue text-white py-3 rounded font-semibold hover:bg-blue-medium transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-lightblue cursor-pointer"
+            aria-label="Guardar cambios del perfil"
           >
             {isLoading ? "Guardando..." : "Guardar"}
           </button>
@@ -392,7 +399,8 @@ const ProfilePage: React.FC = () => {
             onClick={() => {
               setShowEditModal(false);
             }}
-            className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition"
+            className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
+            aria-label="Cancelar edición de perfil"
           >
             Cancelar
           </button>
@@ -459,7 +467,8 @@ const ProfilePage: React.FC = () => {
           <button
             onClick={handleChangePassword}
             disabled={isLoading}
-            className="flex-1 bg-blue text-white py-3 rounded font-semibold hover:bg-blue-medium transition disabled:opacity-50"
+            className="flex-1 bg-blue text-white py-3 rounded font-semibold hover:bg-blue-medium transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-lightblue cursor-pointer"
+            aria-label="Confirmar cambio de contraseña"
           >
             {isLoading ? "Cambiando..." : "Cambiar contraseña"}
           </button>
@@ -472,7 +481,8 @@ const ProfilePage: React.FC = () => {
                 confirmNewPassword: "",
               });
             }}
-            className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition"
+            className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
+            aria-label="Cancelar cambio de contraseña"
           >
             Cancelar
           </button>
@@ -536,7 +546,8 @@ const ProfilePage: React.FC = () => {
               value={deleteConfirmText}
               onChange={(e) => setDeleteConfirmText(e.target.value)}
               required
-              className="border-2 text-white bg-transparent rounded-sm h-10 p-2 focus:outline-none focus:border-red-400"
+              className="border-2 text-white bg-transparent rounded-sm h-10 p-2 focus:outline-none focus:ring-2 focus:ring-red"
+              aria-label='Campo de confirmación para eliminar cuenta. Escribe ELIMINAR en mayúsculas'
             />
             {deleteConfirmText && deleteConfirmText !== "ELIMINAR" && (
               <span className="text-xs text-red-400">
@@ -550,7 +561,8 @@ const ProfilePage: React.FC = () => {
           <button
             onClick={handleDeleteAccount}
             disabled={isLoading || !canDelete}
-            className="flex-1 bg-red-dark text-white py-3 rounded font-semibold hover:bg-red-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-red-dark text-white py-3 rounded font-semibold hover:bg-red-medium transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-red cursor-pointer"
+            aria-label="Confirmar eliminación permanente de cuenta"
           >
             {isLoading ? "Eliminando..." : "Eliminar mi cuenta"}
           </button>
@@ -560,7 +572,8 @@ const ProfilePage: React.FC = () => {
               setDeletePassword("");
               setDeleteConfirmText("");
             }}
-            className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition"
+            className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
+            aria-label="Cancelar eliminación de cuenta"
           >
             Cancelar
           </button>
@@ -581,13 +594,15 @@ const ProfilePage: React.FC = () => {
             <button
               onClick={handleLogout}
               disabled={isLoading}
-              className="flex-1 bg-red-dark text-white py-3 rounded font-semibold hover:bg-red-medium transition disabled:opacity-50"
+              className="flex-1 bg-red-dark text-white py-3 rounded font-semibold hover:bg-red-medium transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-red cursor-pointer"
+              aria-label="Confirmar cierre de sesión"
             >
               {isLoading ? "Cerrando sesión..." : "Sí, cerrar sesión"}
             </button>
             <button
               onClick={() => setShowLogoutModal(false)}
-              className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition"
+              className="flex-1 bg-gray-600 text-white py-3 rounded font-semibold hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
+              aria-label="Cancelar cierre de sesión"
             >
               Cancelar
             </button>

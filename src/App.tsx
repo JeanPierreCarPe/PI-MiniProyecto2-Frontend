@@ -21,6 +21,7 @@ import LikedPage from "./pages/LikedPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import SiteMapPage from "./pages/SiteMapPage";
 import VideoPage from "./pages/VideoPage";
+import UserManualPage from "./pages/UserManualPage";
 
 /**
  * Root application component
@@ -169,6 +170,14 @@ const App: React.FC = () => {
                 <Layout>
                   <SiteMapPage />
                 </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user-manual"
+            element={
+              <ProtectedRoute>
+                <UserManualPage />
               </ProtectedRoute>
             }
           />
