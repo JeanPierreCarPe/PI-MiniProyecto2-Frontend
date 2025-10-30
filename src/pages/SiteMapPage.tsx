@@ -83,7 +83,7 @@ const SiteMapPage: React.FC = () => {
               </li>
               <li>
                 <Link to="/liked" className="hover:text-lightblue transition-colors">
-                  → Mis Me Gusta
+                  → Favoritos
                 </Link>
               </li>
             </ul>
@@ -113,16 +113,46 @@ const SiteMapPage: React.FC = () => {
                   (Se accede desde cualquier video)
                 </span>
               </li>
+              <li className="ml-4">
+                <span className="text-sm text-gray-400">
+                  • Sistema de calificaciones (1-5 estrellas)
+                </span>
+              </li>
+              <li className="ml-4">
+                <span className="text-sm text-gray-400">
+                  • Ver estadísticas de calificaciones
+                </span>
+              </li>
+              <li className="ml-4">
+                <span className="text-sm text-gray-400">
+                  • Comentarios con edición y eliminación
+                </span>
+              </li>
+              <li className="ml-4">
+                <span className="text-sm text-gray-400">
+                  • Subtítulos (Español e Inglés)
+                </span>
+              </li>
+              <li className="ml-4">
+                <span className="text-sm text-gray-400">
+                  • Favoritos (agregar/quitar)
+                </span>
+              </li>
             </ul>
           </div>
 
           {/* Sección de Información */}
           <div className="bg-white/10 rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-lightblue">Información</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-lightblue">Información y Ayuda</h2>
             <ul className="space-y-2">
               <li>
                 <Link to="/about" className="hover:text-lightblue transition-colors">
                   → Sobre Nosotros
+                </Link>
+              </li>
+              <li>
+                <Link to="/user-manual" className="hover:text-lightblue transition-colors">
+                  → Manual de Usuario
                 </Link>
               </li>
               <li>
