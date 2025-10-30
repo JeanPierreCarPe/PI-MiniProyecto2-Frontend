@@ -277,7 +277,6 @@ export const pexelsService = {
    */
   async getUserRating(videoId: string): Promise<{ rating: number } | null> {
     try {
-      console.log('🔍 Fetching user rating for video:', videoId);
       const response = await fetch(
         `${BACKEND_API_URL}/videos/${videoId}/rating/user`,
         {
@@ -286,31 +285,90 @@ export const pexelsService = {
         }
       );
 
-      console.log('📡 Response status:', response.status);
-
       if (response.status === 404) {
         // User hasn't rated this video yet
-        console.log('✅ User has not rated this video (404 is expected)');
         return null;
       }
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('❌ Backend error getting user rating:', errorText);
+        console.error('Backend error getting user rating:', errorText);
         throw new Error(`Error getting user rating (${response.status}): ${errorText}`);
       }
 
-      const data = await response.json();
-      console.log('✅ User rating data received:', data);
-      return data;
+      return response.json();
     } catch (err) {
-      console.error('❌ Error fetching user rating:', err);
-      // Only return null for 404, throw for other errors
-      if (err instanceof Error && err.message.includes('404')) {
-        return null;
-      }
+      console.error('Error fetching user rating:', err);
       return null;
     }
+  },
+
+  /**
+   * Gets rating statistics for a video
+   * Returns average, total ratings, and all ratings with user info
+   * 
+   * @param {string} videoId - MongoDB ID of the video
+   * @returns {Promise<{ averageRating: number; totalRatings: number; ratings: Array<{userId: string, rating: number, createdAt: string}> }>} Rating statistics
+   * @throws {Error} If server error
+   * @example
+   * const stats = await pexelsService.getRatingStats('507f1f77bcf86cd799439011');
+   * console.log(stats.averageRating); // 4.5
+   * console.log(stats.totalRatings); // 120
+   * console.log(stats.ratings); // Array of all ratings
+   */
+  async getRatingStats(videoId: string): Promise<{ 
+    averageRating: number; 
+    totalRatings: number; 
+    ratings: Array<{
+      userId: string;
+      rating: number;
+      createdAt: string;
+    }>;
+  }> {
+    const response = await fetch(
+      `${BACKEND_API_URL}/videos/${videoId}/rating/stats`,
+      {
+        method: "GET",
+        headers: getBackendHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Backend error getting rating stats:', errorText);
+      throw new Error(`Error getting rating stats (${response.status}): ${errorText}`);
+    }
+
+    return response.json();
+  },
+
+  /**
+   * Deletes the current user's rating for a video
+   * Removes the user's rating completely
+   * 
+   * @param {string} videoId - MongoDB ID of the video
+   * @returns {Promise<{ message: string; averageRating: number; totalRatings: number }>} Deletion result
+   * @throws {Error} If user hasn't rated the video or server error
+   * @example
+   * const result = await pexelsService.deleteVideoRating('507f1f77bcf86cd799439011');
+   * console.log(result.message); // "Rating deleted successfully"
+   */
+  async deleteVideoRating(videoId: string): Promise<{ message: string; averageRating: number; totalRatings: number }> {
+    const response = await fetch(
+      `${BACKEND_API_URL}/videos/${videoId}/rating`,
+      {
+        method: "DELETE",
+        headers: getBackendHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Backend error deleting rating:', errorText);
+      throw new Error(`Error deleting rating (${response.status}): ${errorText}`);
+    }
+
+    return response.json();
   },
 
   /**

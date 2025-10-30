@@ -156,7 +156,10 @@ const UserManualPage: React.FC = () => {
                 <h3 className="text-xl font-semibold mb-3 text-yellow">3.3 Sistema de Calificaciones</h3>
                 <ul className="space-y-3 text-white/80">
                   <li>
-                    <strong>Calificar un video:</strong> Haz clic en "Calificar este video" en la página de detalles
+                    <strong>Calificar un video:</strong> Haz clic en "Calificar Video" en la página de detalles del video
+                  </li>
+                  <li>
+                    <strong>Editar calificación:</strong> Si ya calificaste, el botón cambiará a "Editar Calificación"
                   </li>
                   <li>
                     <strong>Seleccionar estrellas:</strong> Elige de 1 a 5 estrellas según tu opinión:
@@ -169,10 +172,16 @@ const UserManualPage: React.FC = () => {
                     </ul>
                   </li>
                   <li>
-                    <strong>Actualizar calificación:</strong> Puedes cambiar tu calificación en cualquier momento
+                    <strong>Ver estadísticas:</strong> Haz clic en el número de calificaciones (ej: "(5 calificaciones)") para ver:
+                    <ul className="list-disc list-inside ml-6 mt-2">
+                      <li>Promedio general de calificaciones</li>
+                      <li>Lista completa de todas las calificaciones</li>
+                      <li>Tu calificación destacada al inicio (si existe)</li>
+                      <li>Fecha y hora de cada calificación</li>
+                    </ul>
                   </li>
                   <li>
-                    <strong>Ver calificaciones:</strong> La calificación promedio se muestra en cada video
+                    <strong>Eliminar tu calificación:</strong> En el modal de estadísticas, usa el botón 🗑️ junto a tu calificación
                   </li>
                 </ul>
               </div>

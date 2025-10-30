@@ -9,6 +9,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import VideosCarousel from "../components/VideosCarousel";
 import RatingModal from "../components/RatingModal";
+import RatingStatsModal from "../components/RatingStatsModal";
 import CommentCard from "../components/CommentCard";
 import CommentModal from "../components/CommentModal";
 import DeleteCommentModal from "../components/DeleteCommentModal";
@@ -81,6 +82,17 @@ const VideoPage: React.FC = () => {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [isRating, setIsRating] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
+  const [showStatsModal, setShowStatsModal] = useState(false);
+  const [ratingStats, setRatingStats] = useState<{
+    averageRating: number;
+    totalRatings: number;
+    ratings: Array<{
+      userId: string;
+      rating: number;
+      createdAt: string;
+    }>;
+  } | null>(null);
+  const [isDeletingRating, setIsDeletingRating] = useState(false);
   
   // Comments states
   const [comments, setComments] = useState<Comment[]>([]);
@@ -154,7 +166,7 @@ const VideoPage: React.FC = () => {
   /**
    * Loads video from Pexels API
    * Extracts first video tag for related videos
-   * Also loads rating information
+   * Also loads rating information and detects user's rating
    * 
    * @async
    * @param {string} id - Pexels video ID
@@ -166,30 +178,39 @@ const VideoPage: React.FC = () => {
       
       const videoData = await pexelsService.getVideoById(id);
       
-      // Load rating information
-      try {
-        const ratingData = await pexelsService.getVideoRating(id);
-        videoData.averageRating = ratingData.averageRating;
-        videoData.totalRatings = ratingData.totalRatings;
-      } catch {
-        console.log('No rating data available for this video');
-        videoData.averageRating = 0;
-        videoData.totalRatings = 0;
-      }
-      
-      // Load user's rating if authenticated
+      // Load rating statistics to get both average and user's rating
       if (user) {
         try {
-          const userRatingData = await pexelsService.getUserRating(id);
-          const rating = userRatingData?.rating || null;
-          console.log('User rating loaded:', rating);
-          setUserRating(rating);
+          const stats = await pexelsService.getRatingStats(id);
+          videoData.averageRating = stats.averageRating;
+          videoData.totalRatings = stats.totalRatings;
+          
+          // Check if user has rated this video
+          const userRatingData = stats.ratings.find(r => r.userId === user.id);
+          if (userRatingData) {
+            console.log('User rating found:', userRatingData.rating);
+            setUserRating(userRatingData.rating);
+          } else {
+            console.log('No user rating found');
+            setUserRating(null);
+          }
         } catch (error) {
-          console.log('No user rating available:', error);
+          console.log('No rating data available for this video:', error);
+          videoData.averageRating = 0;
+          videoData.totalRatings = 0;
           setUserRating(null);
         }
       } else {
-        console.log('No user authenticated, skipping user rating load');
+        // If no user is logged in, just load basic rating info
+        try {
+          const ratingData = await pexelsService.getVideoRating(id);
+          videoData.averageRating = ratingData.averageRating;
+          videoData.totalRatings = ratingData.totalRatings;
+        } catch {
+          videoData.averageRating = 0;
+          videoData.totalRatings = 0;
+        }
+        console.log('No user authenticated, skipping user rating check');
         setUserRating(null);
       }
       
@@ -317,6 +338,97 @@ const VideoPage: React.FC = () => {
       alert(`Error: ${err instanceof Error ? err.message : 'Could not submit rating'}`);
     } finally {
       setIsRating(false);
+    }
+  };
+
+  /**
+   * Loads rating statistics and opens stats modal
+   * Fetches detailed ratings list and detects user's rating
+   * 
+   * @async
+   */
+  const handleOpenStatsModal = async () => {
+    if (!videoId) return;
+
+    try {
+      console.log('Loading rating statistics for video:', videoId);
+      
+      const stats = await pexelsService.getRatingStats(videoId);
+      
+      console.log('Rating stats loaded:', stats);
+      
+      // Detect user's rating from the ratings array
+      if (user) {
+        const userRatingData = stats.ratings.find(r => r.userId === user.id);
+        if (userRatingData) {
+          console.log('User rating found in stats:', userRatingData.rating);
+          setUserRating(userRatingData.rating);
+        }
+      }
+      
+      setRatingStats(stats);
+      setShowStatsModal(true);
+      
+    } catch (err) {
+      console.error("Error loading rating stats:", err);
+      alert(`Error: ${err instanceof Error ? err.message : 'Could not load statistics'}`);
+    }
+  };
+
+  /**
+   * Handles editing user's rating from stats modal
+   * Opens rating modal with current rating pre-selected
+   */
+  const handleEditRatingFromStats = () => {
+    setShowStatsModal(false);
+    setShowRatingModal(true);
+  };
+
+  /**
+   * Handles deleting user's rating
+   * Removes rating from backend and updates display
+   * 
+   * @async
+   */
+  const handleDeleteRating = async () => {
+    if (!videoId || isDeletingRating) return;
+
+    try {
+      setIsDeletingRating(true);
+      
+      console.log('Deleting rating for video:', videoId);
+      
+      const result = await pexelsService.deleteVideoRating(videoId);
+      
+      console.log('Rating deleted successfully:', result);
+      
+      // Update video rating information
+      if (video) {
+        setVideo({
+          ...video,
+          averageRating: result.averageRating,
+          totalRatings: result.totalRatings
+        });
+      }
+      
+      // Clear user's rating
+      setUserRating(null);
+      
+      // Close stats modal
+      setShowStatsModal(false);
+      
+      // Reload stats if modal is still open
+      if (showStatsModal) {
+        await handleOpenStatsModal();
+      }
+      
+      alert('Tu calificación ha sido eliminada exitosamente');
+      
+    } catch (err) {
+      console.error("Error deleting rating:", err);
+      alert(`Error: ${err instanceof Error ? err.message : 'Could not delete rating'}`);
+    } finally {
+      setIsDeletingRating(false);
     }
   };
 
@@ -628,9 +740,13 @@ const VideoPage: React.FC = () => {
                   </div>
                   <span className="text-white font-semibold">
                     {video.totalRatings && video.totalRatings > 0 && (
-                      <span className="text-white/60 text-sm mr-2">
+                      <button
+                        onClick={handleOpenStatsModal}
+                        className="text-green hover:text-green/80 text-sm mr-2 cursor-pointer transition underline focus:outline-none focus:ring-2 focus:ring-green rounded px-1"
+                        aria-label={`Ver ${video.totalRatings} ${video.totalRatings === 1 ? 'calificación' : 'calificaciones'}`}
+                      >
                         ({video.totalRatings} {video.totalRatings === 1 ? 'calificación' : 'calificaciones'})
-                      </span>
+                      </button>
                     )}
                     {video.averageRating && video.averageRating > 0 
                       ? `${video.averageRating.toFixed(1)}/5` 
@@ -691,7 +807,8 @@ const VideoPage: React.FC = () => {
                   setShowRatingModal(true);
                 }}
                 disabled={isLiking || isRating}
-                className="w-full mt-3 py-3 bg-green/80 hover:bg-green text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="w-full mt-3 py-3 bg-green/80 hover:bg-green text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus:outline-none focus:ring-2 focus:ring-green"
+                aria-label={userRating ? 'Editar tu calificación de este video' : 'Calificar este video'}
               >
                 <svg
                   width="20"
@@ -702,6 +819,7 @@ const VideoPage: React.FC = () => {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
@@ -720,6 +838,16 @@ const VideoPage: React.FC = () => {
         onSubmit={handleRating}
         isSubmitting={isRating}
         initialRating={userRating || 0}
+      />
+
+      {/* Rating Stats Modal */}
+      <RatingStatsModal
+        isOpen={showStatsModal}
+        onClose={() => setShowStatsModal(false)}
+        stats={ratingStats}
+        onEditRating={handleEditRatingFromStats}
+        onDeleteRating={handleDeleteRating}
+        isDeleting={isDeletingRating}
       />
 
       {/* Sección de Comentarios */}
