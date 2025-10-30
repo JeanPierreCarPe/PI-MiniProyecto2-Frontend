@@ -39,7 +39,8 @@ const Navbar: React.FC = () => {
         {!isHomePage ? (
           <button
             onClick={handleGoBack}
-            className="back-button flex text-white cursor-pointer gap-2 hover:text-green transition"
+            className="back-button flex text-white cursor-pointer gap-2 hover:text-green transition focus:outline-none focus:ring-2 focus:ring-green rounded px-2 py-1"
+            aria-label="Volver a la página anterior"
           >
             <svg
               width="24"
@@ -51,6 +52,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M5 12l14 0" />
@@ -63,8 +65,8 @@ const Navbar: React.FC = () => {
           <div className="w-20"></div>
         )}
         <img
-          src="./images/logo.png"
-          alt="logo.png"
+          src="/images/logo.png"
+          alt="Logo de Video Platform"
           className="w-16 h-16 object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
         <div className="w-16"></div>
@@ -73,7 +75,8 @@ const Navbar: React.FC = () => {
         <div className="nav-options flex justify-around items-center h-full">
           <Link
             to="/home"
-            className="flex flex-col justify-center items-center text-white px-4 py-2"
+            className="flex flex-col justify-center items-center text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a la página principal"
           >
             <svg
               width="24"
@@ -85,6 +88,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-home hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
@@ -95,7 +99,8 @@ const Navbar: React.FC = () => {
           </Link>
           <Link
             to="/search"
-            className="flex flex-col justify-center items-center text-white px-4 py-2"
+            className="flex flex-col justify-center items-center text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a búsqueda de videos"
           >
             <svg
               width="24"
@@ -107,6 +112,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-search hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -116,7 +122,8 @@ const Navbar: React.FC = () => {
           </Link>
           <Link
             to="/liked"
-            className="flex flex-col justify-center items-center text-white px-4 py-2"
+            className="flex flex-col justify-center items-center text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a mis videos favoritos"
           >
             <svg
               width="24"
@@ -128,15 +135,17 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-heart hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
             </svg>
-            <p className="text-xs mt-1">Me Gusta</p>
+            <p className="text-xs mt-1">Favoritos</p>
           </Link>
           <Link
             to="/profile"
-            className="flex flex-col justify-center items-center text-white px-4 py-2"
+            className="flex flex-col justify-center items-center text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a mi perfil"
           >
             <svg
               width="24"
@@ -148,6 +157,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-user hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
@@ -163,7 +173,8 @@ const Navbar: React.FC = () => {
         {!isHomePage ? (
           <button
             onClick={handleGoBack}
-            className="back-button flex text-white cursor-pointer gap-2 hover:text-green transition"
+            className="back-button flex text-white cursor-pointer gap-2 hover:text-green transition focus:outline-none focus:ring-2 focus:ring-green rounded px-2 py-1"
+            aria-label="Volver a la página anterior"
           >
             <svg
               width="24"
@@ -175,6 +186,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M5 12l14 0" />
@@ -187,14 +199,15 @@ const Navbar: React.FC = () => {
           <div className="w-24"></div>
         )}
         <img
-          src="./images/logo.png"
-          alt="logo.png"
+          src="/images/logo.png"
+          alt="Logo de Video Platform"
           className="w-16 h-16 object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
         <div className="nav-options flex">
           <Link
             to="/home"
-            className="flex flex-col justify-center items-center text-white px-4"
+            className="flex flex-col justify-center items-center text-white px-4 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a la página principal"
           >
             <svg
               width="24"
@@ -206,6 +219,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-home hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
@@ -215,7 +229,8 @@ const Navbar: React.FC = () => {
           </Link>
           <Link
             to="/search"
-            className="flex flex-col justify-center items-center text-white px-4"
+            className="flex flex-col justify-center items-center text-white px-4 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a búsqueda de videos"
           >
             <svg
               width="24"
@@ -227,6 +242,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-search hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -235,7 +251,8 @@ const Navbar: React.FC = () => {
           </Link>
           <Link
             to="/liked"
-            className="flex flex-col justify-center items-center text-white px-4"
+            className="flex flex-col justify-center items-center text-white px-4 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a mis videos favoritos"
           >
             <svg
               width="24"
@@ -247,6 +264,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-heart hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
@@ -254,7 +272,8 @@ const Navbar: React.FC = () => {
           </Link>
           <Link
             to="/profile"
-            className="flex flex-col justify-center items-center text-white px-4"
+            className="flex flex-col justify-center items-center text-white px-4 focus:outline-none focus:ring-2 focus:ring-green rounded transition"
+            aria-label="Ir a mi perfil"
           >
             <svg
               width="24"
@@ -266,6 +285,7 @@ const Navbar: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="icon icon-tabler icons-tabler-outline icon-tabler-user hover:stroke-green transition"
+              aria-hidden="true"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />

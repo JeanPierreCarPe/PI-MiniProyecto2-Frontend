@@ -48,6 +48,8 @@ export interface PexelsVideo {
   video_files?: VideoFile[]; // Optional because backend might not send it
   video_pictures?: VideoPicture[]; // Optional because backend might not send it
   likesCount?: number; // Backend likes counter
+  averageRating?: number; // Average rating (1-5)
+  totalRatings?: number; // Total number of ratings
   createdAt?: string; // Creation date in backend
   updatedAt?: string; // Update date in backend
   __v?: number; // MongoDB version
@@ -73,4 +75,27 @@ export interface PexelsPopularVideosResponse {
   total_results: number;
   url: string;
   videos: PexelsVideo[];
+}
+
+/**
+ * Comment user information
+ */
+export interface CommentUser {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+/**
+ * Video comment structure
+ */
+export interface Comment {
+  _id: string;
+  userId: string; // ObjectId of the user who posted
+  userName: string; // Name of the user
+  text: string;
+  createdAt: string;
+  updatedAt?: string;
+  // Optional: for backward compatibility if backend adds user object
+  user?: CommentUser;
 }

@@ -127,10 +127,10 @@ const LikedPage: React.FC = () => {
           <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
         </svg>
         <h2 className="text-white text-3xl font-bold mb-2">
-          Aún no tienes videos con "Me Gusta"
+          Aún no tienes videos favoritos
         </h2>
         <p className="text-white/70 text-lg text-center max-w-md">
-          Explora videos y dales "Me Gusta" para verlos aquí
+          Explora videos y agrégalos a favoritos para verlos aquí
         </p>
       </div>
     );
@@ -141,7 +141,7 @@ const LikedPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col justify-center items-center my-8">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-          Mis Me Gusta
+          Mis Favoritos
         </h1>
         <p className="text-white/70 text-lg">
           {likedVideos.length} {likedVideos.length === 1 ? "video" : "videos"}
